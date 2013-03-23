@@ -8,9 +8,9 @@ namespace Trivia
     public class Board
     {
         private readonly int _size;
-        private List<string> _questionCategories;
+        private List<Category> _questionCategories;
 
-        public Board(int size, List<string> questionCategories)
+        public Board(int size, List<Category> questionCategories)
         {
             _size = size;
             _questionCategories = questionCategories;
@@ -26,9 +26,23 @@ namespace Trivia
             return position;
         }
 
-        public string GetCategory(int position)
+        public string GetCategoryName(int position)
         {
-            return _questionCategories[position % _questionCategories.Count];
+            return GetCategory(position).Name;
+        }
+
+        public string GetNextQuestion(int position)
+        {
+            var category = GetCategory(position);
+            var question = category.ReadQuestion();
+            category.MoveNextQuestion();
+            return question;
+
+        }
+
+        private Category GetCategory(int position)
+        {
+            return _questionCategories[position%_questionCategories.Count];
         }
     }
 }

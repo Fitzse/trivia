@@ -15,12 +15,18 @@ namespace Trivia.Test
         private const string SPORTS_CATEGORY = "Sports";
         private const string ROCK_CATEGORY = "Rock";
         private Board _board;
-        private List<string> _categories;
+        private List<Category> _categories;
 
         [SetUp]
         public void SetUp()
         {
-            _categories = new List<string> { POP_CATEGORY, SCIENCE_CATEGORY, SPORTS_CATEGORY, ROCK_CATEGORY };
+            _categories = new List<Category>
+                {
+                    CreateCategoryFromName(POP_CATEGORY),
+                    CreateCategoryFromName(SCIENCE_CATEGORY),
+                    CreateCategoryFromName(SPORTS_CATEGORY),
+                    CreateCategoryFromName(ROCK_CATEGORY)
+                };
             _board = new Board(BOARD_SIZE, _categories);
         }
 
@@ -57,10 +63,10 @@ namespace Trivia.Test
         [Test]
         public void GetCategoryForStartingPositionsReturnsCategoriesSuppliedInConstructorInOrder()
         {
-            var first = _board.GetCategory(0);
-            var second = _board.GetCategory(1);
-            var third = _board.GetCategory(2);
-            var fourth  = _board.GetCategory(3);
+            var first = _board.GetCategoryName(0);
+            var second = _board.GetCategoryName(1);
+            var third = _board.GetCategoryName(2);
+            var fourth  = _board.GetCategoryName(3);
 
             Assert.AreEqual(POP_CATEGORY, first);
             Assert.AreEqual(SCIENCE_CATEGORY, second);
@@ -71,14 +77,38 @@ namespace Trivia.Test
         [Test]
         public void GetCategoryForEveryNthPositionReturnsSameCategory() //N = length of categories list
         {
-            var second = _board.GetCategory(2);
-            var sixth = _board.GetCategory(6);
-            var tenth = _board.GetCategory(10);
+            var second = _board.GetCategoryName(2);
+            var sixth = _board.GetCategoryName(6);
+            var tenth = _board.GetCategoryName(10);
 
             Assert.AreEqual(SPORTS_CATEGORY, second);
             Assert.AreEqual(SPORTS_CATEGORY, sixth);
             Assert.AreEqual(SPORTS_CATEGORY, tenth);
         }
 
+        [Test]
+        public void GetNextQuestionReturnsNextQuestionForCategoryOfPosition()
+        {
+            var position = 5;
+            var expectedQuestion = "Science Question 0";
+            var question = _board.GetNextQuestion(position);
+            Assert.AreEqual(expectedQuestion, question);
+        }
+
+        [Test]
+        public void GetNextQuestionIteratesQuestionForCategory()
+        {
+            var position = 5;
+            var expectedQuestion = "Science Question 1";
+            _board.GetNextQuestion(position);
+            var question = _board.GetNextQuestion(position);
+            Assert.AreEqual(expectedQuestion, question);
+        }
+
+        private static Category CreateCategoryFromName(string name)
+        {
+            var questions = Enumerable.Range(0, 50).Select(n => name + " Question " + n).ToList();
+            return new Category(name, questions);
+        }
     }
 }

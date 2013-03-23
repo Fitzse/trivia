@@ -30,6 +30,13 @@ namespace Trivia.Test
         }
 
         [Test]
+        public void PlayerStartsNotInPenaltyBox()
+        {
+            var player = new Player(PLAYER_NAME);
+            Assert.IsFalse(player.IsInPenaltyBox);
+        }
+
+        [Test]
         public void PlayerStartsWith0Coins()
         {
             var player = new Player(PLAYER_NAME);
