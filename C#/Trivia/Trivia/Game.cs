@@ -17,8 +17,6 @@ namespace UglyTrivia
         }
         private Board _board;
 
-        int[] purses = new int[6];
-
         bool[] inPenaltyBox = new bool[6];
 
         LinkedList<string> popQuestions = new LinkedList<string>();
@@ -54,7 +52,6 @@ namespace UglyTrivia
         public bool add(String playerName)
         {
             _players.Add(new Player(playerName));
-            purses[howManyPlayers()] = 0;
             inPenaltyBox[howManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
@@ -142,10 +139,10 @@ namespace UglyTrivia
                 if (isGettingOutOfPenaltyBox)
                 {
                     Console.WriteLine("Answer was correct!!!!");
-                    purses[currentPlayer]++;
+                    CurrentPlayer.Coins++;
                     Console.WriteLine(_players[currentPlayer].Name
                             + " now has "
-                            + purses[currentPlayer]
+                            + CurrentPlayer.Coins 
                             + " Gold Coins.");
 
                     bool winner = didPlayerWin();
@@ -168,10 +165,10 @@ namespace UglyTrivia
             {
 
                 Console.WriteLine("Answer was corrent!!!!");
-                purses[currentPlayer]++;
+                CurrentPlayer.Coins++;
                 Console.WriteLine(_players[currentPlayer].Name
                         + " now has "
-                        + purses[currentPlayer]
+                        + CurrentPlayer.Coins 
                         + " Gold Coins.");
 
                 bool winner = didPlayerWin();
@@ -196,7 +193,7 @@ namespace UglyTrivia
 
         private bool didPlayerWin()
         {
-            return !(purses[currentPlayer] == 6);
+            return !(CurrentPlayer.Coins == 6);
         }
     }
 

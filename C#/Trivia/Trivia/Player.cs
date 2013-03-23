@@ -14,5 +14,6 @@ namespace Trivia
 
         public string Name { get; set; }
         public int BoardPosition { get; set; }
+        public int Coins { get; set; }
     }
 }
