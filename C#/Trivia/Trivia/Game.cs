@@ -88,7 +88,7 @@ namespace UglyTrivia
 
         private static bool IsOdd(int roll)
         {
-            return roll%2 == 0;
+            return roll%2 != 0;
         }
 
         private void ExecutePlayerTurn(int roll)
